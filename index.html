@@ -1,18 +1,110 @@
 <html>
   <head>
     <title>Green Leaves</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+    <style>
+      input.ng-invalid.ng-dirty {
+          border: 1px solid red;
+      }
+    </style>
   </head>
-  <body>
-    <h1>Green Leaves</h1>
-    <form>
-        Nombre:<input type="text" name="nombre" /><br />
-        E-mail:<input type="text" name="email" /><br />
-        Teléfono:<input type="text" name="telefono" /><br />
-        Fecha:<input type="text" name="fecha" /><br />
-        Ciudad y Estado:<input type="text" name="ciudad" /><br />
-      <input type="submit" value="Enviar" />
-    </form>
+
+  <body ng-app="myApp" ng-controller="mainController">
+    <h1 class="title"> Green Leaves</h1>
+    <img src="images/hoja.png" alt="">
+    <div class="form-container">
+      <form ng-if="!formSended" name="userForm" ng-controller="FormValidateController" ng-submit="submitForm(userForm.$valid)" novalidate>
+        <div class="row">
+          <div class="col-1">
+            <label><strong>Nombre:</strong> </label>
+          </div>
+          <div class="col-2">
+            <input type="text" id="input-name" name="name" ng-model="user.name" required ng-style="myStyle"/>
+          </div> <br/>
+        </div>
+
+        <div class="row">
+          <div class="col-1">
+            <label><strong>E-mail:</strong> </label>
+          </div>
+          <div class="col-2">
+            <input type="email" id="input-email" name="email" required ng-model="user.email" />
+            <br />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-1">
+            <label><strong>Teléfono:</strong> </label>
+          </div>
+          <div class="col-2">
+            <input type="tel" name="phone" id="input-phone" required  title="El formato debe tener 10 numeros" ng-model="user.phone" /><br />
+
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-1 ">
+            <label><strong>Fecha:</strong> </label>
+          </div>
+          <div>
+            <input class="input-date" type="text" value="{{datepicker}}" ng-model="datepicker" datepicker><br />
+
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col-1">
+            <label><strong>Ciudad y Estado:</strong> </label>
+          </div>
+          <div class="col-2">
+            <input type="text" name="autocomplete" id="input-location"  ng-autocomplete ng-model="autocomplete" options="options" details="details"/>
+          </div>
+        </div>
+
+        <div class="form-submit-container">
+          <input class="form-submit" type="submit" value="Enviar" name="button"/>
+        </div>
+
+        <div ng-if="errorForms" class="form-error">
+              <p>Se encontraron los siguientes errores en sus datos de contacto:</p>
+              <ul ng-repeat="error in errors">
+                <li>{{error}}</li>
+              </ul>
+              <p>Por favor corrija los errores para continuar</p>
+        </div>
+      </form>
+
+      <div ng-if="formSended">
+        <div class="alert-confirm">
+          <p>Estimado <strong> {{name}}, </strong></span></p>
+          <p> Hemos recibido sus datos y nos pondremos en contacto con usted en la
+          brevedad posible. Enviaremos un correo con información a su cuenta:  {{email}} </p>
+        </div>
+
+        <div class="alert-confirm-2">
+          <strong>Atte.</strong> <br>
+          <strong>Green Leaves</strong> <br>
+          <strong>{{location}}</strong>
+        </div>
+      </div>
+    </div>
+
+
+
+
   </body>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <script src="js/angular.min.js" type="text/javascript"> </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+  <script type="text/javascript" src="js/autocomplete.js"></script>
+  <script src="js/app.js" type="text/javascript"> </script>
+
 </html>
