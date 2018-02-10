@@ -1,7 +1,23 @@
 var myApp = angular.module('myApp', ['ngAutocomplete','ngRoute']);
 
-myApp.controller('mainController',function($scope,$rootScope){
+myApp.controller('mainController',function($scope,$rootScope,$http){
   $rootScope.formSended = false;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position){
+      $scope.$apply(function(){
+        var lat = position.coords.latitude
+        var long = position.coords.longitude
+        $http.get("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+long+"&APPID=9a1485c35b226f0560dd001a61d90c53&units=metric")
+        .then(function(response){
+          console.log(response);
+          $scope.temp=response.data.main.temp;
+        })
+        console.log(position.coords);
+        $scope.position = position;
+      });
+    });
+
+  }
 })
 
 myApp.controller('FormValidateController',function FormValidateController($scope,$rootScope){
@@ -9,7 +25,7 @@ myApp.controller('FormValidateController',function FormValidateController($scope
   $scope.errors = []
 
   $scope.submitForm = function(isValid) {
-		if (isValid) { 
+		if (isValid) {
       $rootScope.email = $scope.user.email;
       $rootScope.name = $scope.user.name;
       $rootScope.location = $scope.autocomplete;
@@ -42,12 +58,7 @@ myApp.controller('FormValidateController',function FormValidateController($scope
       } else {
         angular.element(document.getElementById('input-date')).css('background','white');
       }
-      if (!$scope.autocomplete) {
-        angular.element(document.getElementById('input-location')).css('background','#eb4d4b');
-        $scope.errors.push("La ubicacion es requerida")
-      } else {
-        angular.element(document.getElementById('input-location')).css('background','white');
-      }
+      
 
     }
 

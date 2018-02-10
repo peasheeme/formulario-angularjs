@@ -58,14 +58,7 @@
             </div>
         </div>
 
-        <div class="row">
-          <div class="col-1">
-            <label><strong>Ciudad y Estado:</strong> </label>
-          </div>
-          <div class="col-2">
-            <input type="text" name="autocomplete" id="input-location"  ng-autocomplete ng-model="autocomplete" options="options" details="details"/>
-          </div>
-        </div>
+        
 
         <div class="form-submit-container">
           <input class="form-submit" type="submit" value="Enviar" name="button"/>
@@ -93,6 +86,12 @@
           <strong>{{location}}</strong>
         </div>
       </div>
+    </div>
+
+    <div class="temperature">
+      <p><strong>Este es el clima actual:</strong> </p>
+      <p> {{temp}}°C </p>
+
     </div>
 
 
